@@ -45,7 +45,7 @@ public class AccountController {
      */
     @LogObjectAfter
     @GetMapping("/{id}/balance")
-    public ResponseEntity<Account> findById(String id) {
+    public ResponseEntity<Account> findById(@PathVariable String id) {
         Account account = service.findByAccountId(id);
         return ResponseEntity.ok().body(account);
     }
@@ -58,7 +58,7 @@ public class AccountController {
      */
     @LogObjectAfter
     @GetMapping("/{id}/statements/mini")
-    public ResponseEntity<List<MoneyTransferEvent>> getMiniStatements(String id) {
+    public ResponseEntity<List<MoneyTransferEvent>> getMiniStatements(@PathVariable String id) {
         List<MoneyTransferEvent> events = transitionService.miniStatements(id);
         return ResponseEntity.ok().body(events);
     }

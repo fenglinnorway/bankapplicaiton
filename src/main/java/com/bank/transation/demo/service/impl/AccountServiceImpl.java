@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.bank.transation.demo.model.bank.Account;
 import com.bank.transation.demo.repository.AccountRepository;
 import com.bank.transation.demo.service.AccountService;
+import com.bank.transation.demo.utils.BankAccountIdValidator;
 
 /**
  * The {@code AccountServiceImpl} class is an implementation of the
@@ -49,6 +50,9 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public Account findByAccountId(String accountId) {
+        if (!BankAccountIdValidator.isValid(accountId)) {
+            throw new IllegalArgumentException("Invalid account ID format");
+        }
         return repository.findByAccountId(accountId);
     }
 
@@ -61,6 +65,9 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public Integer getBalance(String accountId) {
+        if (!BankAccountIdValidator.isValid(accountId)) {
+            throw new IllegalArgumentException("Invalid account ID format");
+        }
         return repository.findByAccountId(accountId).getBalance();
     }
 }

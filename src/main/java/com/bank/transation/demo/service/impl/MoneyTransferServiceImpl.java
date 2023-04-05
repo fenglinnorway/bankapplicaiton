@@ -6,7 +6,7 @@ import com.bank.transation.demo.model.bank.*;
 import com.bank.transation.demo.repository.AccountRepository;
 import com.bank.transation.demo.repository.TransitionRepository;
 import com.bank.transation.demo.service.MoneyTransferService;
-
+import com.bank.transation.demo.utils.BankAccountIdValidator;
 import org.springframework.stereotype.Service;
 
 /**
@@ -49,9 +49,47 @@ public class MoneyTransferServiceImpl implements MoneyTransferService {
      * @throws IllegalArgumentException if the source account does not have enough
      *                                  balance for the withdrawal
      */
+    
     @Transactional
     @Override
     public void transferMoney(String fromAccountId, String toAccountId, Integer amount) {
-        // ... (Implementation remains the same)
+        if (!BankAccountIdValidator.isValid(fromAccountId) || !BankAccountIdValidator.isValid(toAccountId)) {
+            throw new IllegalArgumentException("Invalid account ID format" + fromAccountId + " or " + toAccountId + "");
+        }
+
+        Account fromAccount = accountRepository.findByAccountId(fromAccountId);
+        Account toAccount = accountRepository.findByAccountId(toAccountId);
+        if (fromAccount == null || toAccount == null) {
+            throw new IllegalArgumentException("Invalid account ID + " + fromAccountId + " or " + toAccountId + "");
+        }
+        // Check if the fromAccount has enough balance for withdrawal
+        if (fromAccount.getBalance() < amount) {
+            throw new IllegalArgumentException("Insufficient balance in the fromAccount");
+        }
+
+        fromAccount.setBalance(fromAccount.getBalance() - amount);
+        toAccount.setBalance(toAccount.getBalance() + amount);
+
+        accountRepository.save(fromAccount);
+        accountRepository.save(toAccount);
+
+        MoneyTransferEvent withdrawalEvent = new MoneyTransferEvent();
+        withdrawalEvent.setAccountId(fromAccount.getAccountId());
+        withdrawalEvent.setAmount(amount);
+        withdrawalEvent.setTransitionType(TransactionType.TYPE.DEBIT.name());
+        withdrawalEvent.setCurrency(fromAccount.getCurrency());
+        withdrawalEvent.setTransactionDate(new java.sql.Date(System.currentTimeMillis()));
+
+        MoneyTransferEvent depositEvent = new MoneyTransferEvent();
+        depositEvent.setAccountId(toAccount.getAccountId());
+        depositEvent.setAmount(amount);
+        depositEvent.setTransitionType(TransactionType.TYPE.CREDIT.name());
+        depositEvent.setCurrency(fromAccount.getCurrency());
+        depositEvent.setTransactionDate(new java.sql.Date(System.currentTimeMillis()));
+
+        transitionRepository.save(withdrawalEvent);
+        transitionRepository.save(depositEvent);
+        // throw new UnsupportedOperationException("Unimplemented method
+        // 'transferMoney'");
     }
 }

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @Builder
 @Entity
 @Table
+@ToString
 public class Account {
 
     @Id
