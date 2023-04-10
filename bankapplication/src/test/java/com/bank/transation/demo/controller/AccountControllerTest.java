@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.List;
 import java.sql.Date;
 import com.jayway.jsonpath.JsonPath;
@@ -56,7 +57,7 @@ class AccountControllerTest {
                                 testDate)
                         .build());
 
-        Mockito.when(accountService.findByAccountId("AB1234567890")).thenReturn(testAccount);
+        Mockito.when(accountService.findByAccountId("AB1234567890")).thenReturn(Optional.of(testAccount));
         Mockito.when(transitionService.miniStatements("AB1234567890")).thenReturn(testMiniStatements);
 
         // Add print statements

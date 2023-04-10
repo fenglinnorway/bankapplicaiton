@@ -1,5 +1,6 @@
 package com.bank.transation.demo.service;
 
+import java.util.Optional;
 import com.bank.transation.demo.model.bank.Account;
 
 /**
@@ -11,13 +12,14 @@ import com.bank.transation.demo.model.bank.Account;
 public interface AccountService {
 
     /**
-     * Finds and returns an Account object by its accountId.
-     *
-     * @param accountId the accountId of the Account to be retrieved
-     * @return the Account object with the specified accountId, or null if no such
-     *         account exists
+     * Finds and returns an Account object based on its accountId.
+     * 
+     * @param accountId The unique identifier of the Account to be retrieved.
+     * @return An Optional<Account> containing the Account object with the specified
+     *         accountId, or an empty Optional if no such account exists.
      */
-    Account findByAccountId(String accountId);
+
+    Optional<Account> findByAccountId(String accountId);
 
     /**
      * Retrieves the balance of an Account by its accountId.

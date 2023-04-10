@@ -41,30 +41,30 @@ public class BankApplication {
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
-	@Bean
-	@Profile("unit")
-	CommandLineRunner runner() {
-		return args -> {
+	// @Bean
+	// @Profile("unit")
+	// CommandLineRunner runner() {
+	// 	return args -> {
 
-			List<Account> accounts = accountRepository.findAll();
+	// 		List<Account> accounts = accountRepository.findAll();
 
 			
-			if(accounts.isEmpty()) {
-				log.info("******* Inserting Accounts to DB *******");
-				accountRepository.saveAll(UtilityHelper.accountSupplier.get());
-			} else {
-				log.info("******* Accounts stored in DB Size :: {}", accounts.size());
-				log.info("******* Accounts stored in DB :: {}", accounts);
-			} 
-			List<MoneyTransferEvent> transferEvents = transitionRepository.findAll();
-			if (transferEvents.isEmpty()) {
-				log.info("******* Inserting MoneyTransferEvents to DB *******");
-				transitionRepository.saveAll(UtilityHelper.moneyTransferEventSupplier.get());
-			} else {
-				log.info("******* MoneyTransferEvents stored in DB Size :: {}", transferEvents.size());
-				log.info("******* MoneyTransferEvents stored in DB :: {}", transferEvents);
-			}
-		};
-	}
+	// 		if(accounts.isEmpty()) {
+	// 			log.info("******* Inserting Accounts to DB *******");
+	// 			accountRepository.saveAll(UtilityHelper.accountSupplier.get());
+	// 		} else {
+	// 			log.info("******* Accounts stored in DB Size :: {}", accounts.size());
+	// 			log.info("******* Accounts stored in DB :: {}", accounts);
+	// 		} 
+	// 		List<MoneyTransferEvent> transferEvents = transitionRepository.findAll();
+	// 		if (transferEvents.isEmpty()) {
+	// 			log.info("******* Inserting MoneyTransferEvents to DB *******");
+	// 			transitionRepository.saveAll(UtilityHelper.moneyTransferEventSupplier.get());
+	// 		} else {
+	// 			log.info("******* MoneyTransferEvents stored in DB Size :: {}", transferEvents.size());
+	// 			log.info("******* MoneyTransferEvents stored in DB :: {}", transferEvents);
+	// 		}
+	// 	};
+	//}
 
 }

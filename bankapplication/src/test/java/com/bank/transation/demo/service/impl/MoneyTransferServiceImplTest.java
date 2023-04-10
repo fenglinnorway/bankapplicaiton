@@ -11,10 +11,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.util.Optional;
 
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
 
 @ExtendWith(MockitoExtension.class)
 public class MoneyTransferServiceImplTest {
@@ -53,8 +55,8 @@ public class MoneyTransferServiceImplTest {
 
     @Test
     public void transferMoney_success() {
-        when(accountRepository.findByAccountId(fromAccount.getAccountId())).thenReturn(fromAccount);
-        when(accountRepository.findByAccountId(toAccount.getAccountId())).thenReturn(toAccount);
+        when(accountRepository.findByAccountId(fromAccount.getAccountId())).thenReturn(Optional.of(fromAccount));
+        when(accountRepository.findByAccountId(toAccount.getAccountId())).thenReturn(Optional.of(toAccount));
         when(accountRepository.save(any(Account.class))).thenReturn(null);
         when(transitionRepository.save(any(MoneyTransferEvent.class))).thenReturn(null);
 
@@ -69,8 +71,8 @@ public class MoneyTransferServiceImplTest {
     @Test
     public void transferMoney_insufficientBalance() {
         Integer insufficientAmount = 1500;
-        when(accountRepository.findByAccountId(fromAccount.getAccountId())).thenReturn(fromAccount);
-        when(accountRepository.findByAccountId(toAccount.getAccountId())).thenReturn(toAccount);
+        when(accountRepository.findByAccountId(fromAccount.getAccountId())).thenReturn(Optional.of(fromAccount));
+        when(accountRepository.findByAccountId(toAccount.getAccountId())).thenReturn(Optional.of(toAccount));
 
         assertThrows(IllegalArgumentException.class, () -> {
             moneyTransferService.transferMoney(fromAccount.getAccountId(), toAccount.getAccountId(),
@@ -88,10 +90,10 @@ public class MoneyTransferServiceImplTest {
         String nonExstingAccountId = "HZ7351968402";
         Integer senderAmount = 10;
 
-        when(accountRepository.findByAccountId(fromAccount.getAccountId())).thenReturn(fromAccount);
-        when(accountRepository.findByAccountId(nonExstingAccountId)).thenReturn(null);
+        when(accountRepository.findByAccountId(fromAccount.getAccountId())).thenReturn(Optional.of(fromAccount));
+        when(accountRepository.findByAccountId(nonExstingAccountId)).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(java.util.NoSuchElementException.class, () -> {
             moneyTransferService.transferMoney(fromAccount.getAccountId(), nonExstingAccountId, senderAmount);
         });
 

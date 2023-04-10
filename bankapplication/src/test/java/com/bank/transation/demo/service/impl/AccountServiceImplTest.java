@@ -12,11 +12,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
 
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceImplTest {
@@ -41,9 +42,9 @@ public class AccountServiceImplTest {
     @Test
     public void checkAccountBalance_success() {
         String accountId = account.getAccountId();
-        when(accountRepository.findByAccountId(accountId)).thenReturn(account);
+        when(accountRepository.findByAccountId(accountId)).thenReturn(Optional.of(account));
 
-        Integer balance = accountService.findByAccountId(accountId).getBalance();
+        Integer balance = accountService.findByAccountId(accountId).get().getBalance();
 
         assertEquals(account.getBalance(), balance);
 

@@ -46,7 +46,7 @@ public class AccountController {
     @LogObjectAfter
     @GetMapping("/{id}/balance")
     public ResponseEntity<Account> findById(@PathVariable String id) {
-        Account account = service.findByAccountId(id);
+        Account account = service.findByAccountId(id).get();
         return ResponseEntity.ok().body(account);
     }
 

@@ -57,8 +57,8 @@ public class MoneyTransferServiceImpl implements MoneyTransferService {
             throw new IllegalArgumentException("Invalid account ID format" + fromAccountId + " or " + toAccountId + "");
         }
 
-        Account fromAccount = accountRepository.findByAccountId(fromAccountId);
-        Account toAccount = accountRepository.findByAccountId(toAccountId);
+        Account fromAccount = accountRepository.findByAccountId(fromAccountId).get();
+        Account toAccount = accountRepository.findByAccountId(toAccountId).get();
         if (fromAccount == null || toAccount == null) {
             throw new IllegalArgumentException("Invalid account ID + " + fromAccountId + " or " + toAccountId + "");
         }

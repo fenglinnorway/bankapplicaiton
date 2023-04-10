@@ -1,5 +1,7 @@
 package com.bank.transation.demo.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,11 +47,11 @@ public class AccountServiceImpl implements AccountService {
      *
      * @param accountId The account ID for which the account object should be
      *                  retrieved
-     * @return The Account object with the specified accountId, or null if no such
-     *         account exists
+     * @return An Optional<Account> containing the Account object with the
+     *         specified accountId, or an empty Optional if no such account exists.
      */
     @Override
-    public Account findByAccountId(String accountId) {
+    public Optional<Account> findByAccountId(String accountId) {
         if (!BankAccountIdValidator.isValid(accountId)) {
             throw new IllegalArgumentException("Invalid account ID format");
         }
@@ -68,6 +70,6 @@ public class AccountServiceImpl implements AccountService {
         if (!BankAccountIdValidator.isValid(accountId)) {
             throw new IllegalArgumentException("Invalid account ID format");
         }
-        return repository.findByAccountId(accountId).getBalance();
+        return repository.findByAccountId(accountId).get().getBalance();
     }
 }

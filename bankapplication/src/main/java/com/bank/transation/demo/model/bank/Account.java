@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Getter
 @Setter
@@ -24,5 +25,6 @@ public class Account {
     private String accountId;
     private Integer balance;
     private String currency;
-
+    @Version
+    private Long version;
 }
