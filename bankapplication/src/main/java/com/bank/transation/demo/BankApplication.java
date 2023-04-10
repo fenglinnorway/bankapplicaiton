@@ -42,7 +42,7 @@ public class BankApplication {
 		return new RestTemplate();
 	}
 	@Bean
-	@Profile("integration")
+	@Profile("unit")
 	CommandLineRunner runner() {
 		return args -> {
 

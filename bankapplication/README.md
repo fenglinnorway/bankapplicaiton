@@ -38,53 +38,35 @@ Run jar file from below path with given command
 
 
 
+### Techniques used
 
+Spring Boot: The application uses Spring Boot as its foundation, a framework that simplifies the development and deployment of Java-based applications.
 
-### Code Snippets
-1. #### Maven Dependencies
-    Need to add below dependencies to enable H2 DB related config in **pom.xml**. Lombok's dependency is to get rid of boiler-plate code.
-    ```
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
+Web Application: The application is a web application, as it includes the "spring-boot-starter-web" dependency, which provides support for building web applications using Spring MVC.
 
-    <!-- update -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-aop</artifactId>
-    </dependency>
+Aspect-Oriented Programming (AOP): The application uses AOP techniques, as it includes the "spring-boot-starter-aop" dependency. AOP is a programming paradigm that enables the modularization of cross-cutting concerns, such as logging and security.
 
-    <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2</artifactId>
-        <scope>runtime</scope>
-    </dependency>
+Data Persistence: The application employs the Java Persistence API (JPA) to manage data persistence, using the "spring-boot-starter-data-jpa" dependency. JPA is a standard for mapping Java objects to relational database tables.
 
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <optional>true</optional>
-    </dependency>
-    ```
+In-Memory Database: The application uses an H2 in-memory database for data storage, as indicated by the "h2" dependency.
 
-   Added Reactive spring support with below dependencies in this application.
-    ```
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-webflux</artifactId>
-    </dependency>
+Lombok: The application uses Project Lombok, a library that simplifies Java code by generating boilerplate code like getters, setters, and constructors through annotations.
 
-    <dependency>
-        <groupId>io.projectreactor</groupId>
-        <artifactId>reactor-test</artifactId>
-        <scope>test</scope>
-    </dependency>
-    ```
+File I/O: The application utilizes the Apache Commons IO library to handle file I/O operations.
 
+API Documentation: The application uses Springdoc OpenAPI UI to generate and display API documentation.
 
+Reactive Programming: The application includes support for reactive programming using Spring WebFlux, with the "spring-boot-starter-webflux" dependency. Reactive programming enables the development of non-blocking, asynchronous, and event-driven applications.
 
-2. #### Properties file
+Testing: The application uses various testing libraries, such as Spring Boot Starter Test, JUnit 5 (Jupiter), JUnit Vintage Engine, Hamcrest, and Reactor Test, for unit and integration testing.
+
+REST API Testing: The application uses Rest-Assured for testing RESTful APIs.
+
+Code Coverage: The application uses JaCoCo, a code coverage library, to ensure a minimum level of code coverage in the project.
+
+Maven Failsafe Plugin: The application uses the Maven Failsafe Plugin for executing integration tests and verifying the results.
+
+#### Properties file
     Reading H2 DB related properties from **application.properties** file and configuring JPA connection factory for H2 database.
 
     **src/main/resources/application.properties**
@@ -110,8 +92,7 @@ Run jar file from below path with given command
 Swagger can be launched in Browser: http://localhost:9010/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
 
 H2 Console On Browser: http://localhost:9010/h2-console
-
-3. #### Jacoco Configuration
+#### Jacoco Configuration
     Jacoco plugin is used for getting Code coverage Report, Offcial Documentation [Jacoco](https://www.eclemma.org/jacoco/)
 
     **pom.xml**

@@ -2,9 +2,6 @@
 test:
 	mvn test
 
-.PHONY: ctest
-ctest:
-	mvn test -Dtest=**/*IntegrationTest
 
 .PHONY: run
 run:
@@ -14,3 +11,6 @@ run:
 jacoco:
 	mvn verify
 
+.PHONY: report
+report:
+	open target/site/jacoco/index.html
